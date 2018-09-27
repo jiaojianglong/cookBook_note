@@ -12,7 +12,7 @@ from socket import socket,AF_INET,SOCK_STREAM
 from functools import partial
 
 class LazyConnection:
-    
+
     def __init__(self,address,family = AF_INET, type = SOCK_STREAM):
         self.address = address
         self.family = family

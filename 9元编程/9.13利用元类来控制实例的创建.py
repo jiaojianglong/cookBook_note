@@ -39,20 +39,23 @@ class Spam(metaclass=NoInstances):
 #单例模式
 #TODO 还不懂 元类方式实现单例
 class Singleton(type):
-    def __init__(self,*args,**kwargs):
-        self.__instance = None
+    def __init__(cls,*args,**kwargs):
+        cls.__instance = None
         super().__init__(*args,**kwargs)
 
-    def __call__(self, *args, **kwargs):
-        if self.__instance is None:
-            self.__instance = super().__call__(*args,**kwargs)
-            return self.__instance
+    def __call__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = super().__call__(*args,**kwargs)
+            return cls.__instance
         else:
-            return self.__instance
+            return cls.__instance
 
 class Spam(metaclass=Singleton):
     def __init__(self):
         print("Creating Spam")
+s = Spam()
+m = Spam()
+print(s is m)
 
 
 #创建缓存实例
@@ -78,12 +81,12 @@ class Spams(metaclass=Cached):
     def __init__(self,name):
         print("Creating Spam({!r})".format(name))
         self.name = name
-
-
-a1 = Spams("111")
-b1 = Spams("222")
-c1 = Spams("111")
-print(a1 is c1)
+#
+#
+# a1 = Spams("111")
+# b1 = Spams("222")
+# c1 = Spams("111")
+# print(a1 is c1)
 
 
 

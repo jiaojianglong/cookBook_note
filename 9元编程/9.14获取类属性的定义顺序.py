@@ -40,10 +40,11 @@ class OrderedMeta(type):
                 value._name = name
                 order.append(name)
                 d['_order'] = order
-                return type.__new__(cls,clsname,bases,d)
+        return type.__new__(cls,clsname,bases,d)
+
 
     @classmethod
-    def __prepare__(metacls, name, bases):
+    def __prepare__(cls, name, bases):
         return OrderedDict()
 
 #注：__prepare__该方法会在类定义一开始的时候调用，调用时以类名和基类名称作为参数，它必须返回一个映射对象，供处理类定义体时调用
@@ -54,8 +55,8 @@ class Structure(metaclass=OrderedMeta):
 
     def as_csv(self):
         return ','.join(str(getattr(self,name)) for name in self._order)
-
-class Stock(metaclass=OrderedMeta):
+print(Structure)
+class Stock(Structure):
     name = String()
     shares = Integer()
     price = Float()
@@ -66,5 +67,6 @@ class Stock(metaclass=OrderedMeta):
 
 s = Stock("haha",23,23.3)
 print(s.name)
-s = Stock(34,23,34)
-# print(s.as_csv())
+# s = Stock(34,23,34)
+print(s.as_csv())
+print(s._order)
